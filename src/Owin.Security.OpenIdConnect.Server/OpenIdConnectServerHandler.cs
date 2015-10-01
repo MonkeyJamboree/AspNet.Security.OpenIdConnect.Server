@@ -165,6 +165,12 @@ namespace Owin.Security.OpenIdConnect.Server {
                 notification.MatchesLogoutEndpoint();
             }
 
+            else if (Options.RegistrationEndpointPath.HasValue &&
+                     Options.RegistrationEndpointPath == Request.Path)
+            {
+                notification.MatchesRegistrationEndpoint();
+            }
+
             else if (Options.ConfigurationEndpointPath.HasValue &&
                      Options.ConfigurationEndpointPath == Request.Path) {
                 notification.MatchesConfigurationEndpoint();
@@ -220,6 +226,12 @@ namespace Owin.Security.OpenIdConnect.Server {
 
             else if (notification.IsLogoutEndpoint) {
                 return await InvokeLogoutEndpointAsync();
+            }
+
+            else if (notification.IsRegistrationEndpoint)
+            {
+                await InvokeRegistrationEndpointAsync();
+                return true;
             }
 
             else if (notification.IsTokenEndpoint) {

@@ -50,5 +50,10 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// Default value for <see cref="OpenIdConnectServerOptions.LogoutEndpointPath"/>.
         /// </summary>
         public const string LogoutEndpointPath = "/connect/logout";
+
+        /// <summary>
+        /// Default value for <see cref="OpenIdConnectServerOptions.RegistrationEndpointPath"/>
+        /// </summary>
+        public const string RegistrationEndpointPath = "/connect/register";
     }
 }

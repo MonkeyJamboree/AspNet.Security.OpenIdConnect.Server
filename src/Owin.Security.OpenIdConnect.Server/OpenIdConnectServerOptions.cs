@@ -27,6 +27,7 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// </summary>
         public OpenIdConnectServerOptions()
             : base(OpenIdConnectServerDefaults.AuthenticationType) {
+            RegistrationEndpointPath = new PathString(OpenIdConnectServerDefaults.RegistrationEndpointPath);
         }
 
         /// <summary>
@@ -103,6 +104,13 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// You can set it to <see cref="PathString.Empty"/> to disable the logout endpoint.
         /// </summary>
         public PathString LogoutEndpointPath { get; set; } = new PathString(OpenIdConnectServerDefaults.LogoutEndpointPath);
+
+        /// <summary>
+        /// The request path client applications or developers communicate with to register and manage client data.
+        /// Must begin with a leading slash, like "/connect/register".
+        /// You can set it to <see cref="PathString.Empty"/> to disable the registration endpoint.
+        /// </summary>
+        public PathString RegistrationEndpointPath { get; set; } = new PathString(OpenIdConnectServerDefaults.RegistrationEndpointPath);
 
         /// <summary>
         /// Specifies a <see cref="IOpenIdConnectServerProvider"/> that the <see cref="OpenIdConnectServerMiddleware" /> invokes

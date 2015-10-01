@@ -63,6 +63,11 @@ namespace Owin.Security.OpenIdConnect.Server {
         public bool IsLogoutEndpoint { get; private set; }
 
         /// <summary>
+        /// Gets whether or not the endpoint is a registration endpoint.
+        /// </summary>
+        public bool IsRegistrationEndpoint { get; private set; }
+
+        /// <summary>
         /// Sets the endpoint type to the authorization endpoint.
         /// </summary>
         public void MatchesAuthorizationEndpoint() {
@@ -73,6 +78,7 @@ namespace Owin.Security.OpenIdConnect.Server {
             IsUserinfoEndpoint = false;
             IsIntrospectionEndpoint = false;
             IsLogoutEndpoint = false;
+            IsRegistrationEndpoint = false;
         }
 
         /// <summary>
@@ -86,6 +92,7 @@ namespace Owin.Security.OpenIdConnect.Server {
             IsUserinfoEndpoint = false;
             IsIntrospectionEndpoint = false;
             IsLogoutEndpoint = false;
+            IsRegistrationEndpoint = false;
         }
 
         /// <summary>
@@ -99,6 +106,7 @@ namespace Owin.Security.OpenIdConnect.Server {
             IsUserinfoEndpoint = false;
             IsIntrospectionEndpoint = false;
             IsLogoutEndpoint = false;
+            IsRegistrationEndpoint = false;
         }
 
         /// <summary>
@@ -125,6 +133,7 @@ namespace Owin.Security.OpenIdConnect.Server {
             IsUserinfoEndpoint = true;
             IsIntrospectionEndpoint = false;
             IsLogoutEndpoint = false;
+            IsRegistrationEndpoint = false;
         }
 
         /// <summary>
@@ -138,6 +147,7 @@ namespace Owin.Security.OpenIdConnect.Server {
             IsUserinfoEndpoint = false;
             IsIntrospectionEndpoint = true;
             IsLogoutEndpoint = false;
+            IsRegistrationEndpoint = false;
         }
 
         /// <summary>
@@ -151,6 +161,21 @@ namespace Owin.Security.OpenIdConnect.Server {
             IsUserinfoEndpoint = false;
             IsIntrospectionEndpoint = false;
             IsLogoutEndpoint = true;
+            IsRegistrationEndpoint = false;
+        }
+
+        /// <summary>
+        /// Sets the endpoint type to logout endpoint.
+        /// </summary>
+        public void MatchesRegistrationEndpoint()
+        {
+            IsAuthorizationEndpoint = false;
+            IsConfigurationEndpoint = false;
+            IsCryptographyEndpoint = false;
+            IsTokenEndpoint = false;
+            IsValidationEndpoint = false;
+            IsLogoutEndpoint = false;
+            IsRegistrationEndpoint = true;
         }
 
         /// <summary>
@@ -164,6 +189,7 @@ namespace Owin.Security.OpenIdConnect.Server {
             IsUserinfoEndpoint = false;
             IsIntrospectionEndpoint = false;
             IsLogoutEndpoint = false;
+            IsRegistrationEndpoint = false;
         }
     }
 }

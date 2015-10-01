@@ -246,6 +246,12 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <returns>Task to enable asynchronous execution</returns>
         Task ApplyIntrospectionResponse(ApplyIntrospectionResponseContext context);
 
+        // TODO: Add Summary.
+        Task RegistrationEndpoint(RegistrationEndpointContext context);
+
+        // TODO: Add Summary.
+        Task RegistrationEndpointResponse(RegistrationEndpointResponseContext context);
+
         /// <summary>
         /// Called before the LogoutEndpoint endpoint redirects its response to the caller.
         /// If the web application wishes to produce the authorization response directly in the LogoutEndpoint call it may write to the 
@@ -346,5 +352,10 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <param name="context">The context of the event carries information in and results out.</param>
         /// <returns>Task to enable asynchronous execution</returns>
         Task DeserializeRefreshToken(DeserializeRefreshTokenContext context);
+
+        Task CreateClientRegistration(CreateClientRegistrationContext context);
+        Task ReadClientRegistration(ReadClientRegistrationContext context);
+        Task UpdateClientRegistration(UpdateClientRegistrationContext context);
+        Task DeleteClientRegistration(DeleteClientRegistrationContext context);
     }
 }

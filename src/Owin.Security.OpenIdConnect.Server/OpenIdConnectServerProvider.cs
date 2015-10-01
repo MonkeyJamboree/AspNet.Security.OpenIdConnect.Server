@@ -201,6 +201,12 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// </summary>
         public Func<ApplyIntrospectionResponseContext, Task> OnApplyIntrospectionResponse { get; set; } = context => Task.FromResult<object>(null);
 
+        // TODO: Add summary.
+        public Func<RegistrationEndpointContext, Task> OnRegistrationEndpoint { get; set; } = context => Task.FromResult<object>(null);
+
+        // TODO: Add summary.
+        public Func<RegistrationEndpointResponseContext, Task> OnRegistrationEndpointResponse { get; set; } = context => Task.FromResult<object>(null);
+
         /// <summary>
         /// Called before the LogoutEndpoint endpoint redirects its response to the caller.
         /// If the web application wishes to produce the authorization response directly in the LogoutEndpoint call it may write to the 
@@ -279,6 +285,11 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <see cref="BaseControlContext.HandleResponse"/>.
         /// </summary>
         public Func<DeserializeRefreshTokenContext, Task> OnDeserializeRefreshToken { get; set; } = context => Task.FromResult<object>(null);
+
+        public Func<CreateClientRegistrationContext, Task> OnCreateClientRegistration { get; set; } = context => Task.FromResult<object>(null);
+        public Func<ReadClientRegistrationContext, Task> OnReadClientRegistration { get; set; } = context => Task.FromResult<object>(null);
+        public Func<UpdateClientRegistrationContext, Task> OnUpdateClientRegistration { get; set; } = context => Task.FromResult<object>(null);
+        public Func<DeleteClientRegistrationContext, Task> OnDeleteClientRegistration { get; set; } = context => Task.FromResult<object>(null);
 
         /// <summary>
         /// Called to determine if an incoming request is treated as an authorization or token
@@ -504,6 +515,12 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <returns>Task to enable asynchronous execution</returns>
         public virtual Task ApplyCryptographyResponse(ApplyCryptographyResponseContext context) => OnApplyCryptographyResponse(context);
 
+        // TODO: Add summary.
+        public virtual Task RegistrationEndpoint(RegistrationEndpointContext context) => OnRegistrationEndpoint(context);
+
+        // TODO: Add summary.
+        public virtual Task RegistrationEndpoint(RegistrationEndpointResponseContext context) => OnRegistrationEndpointResponse(context);
+
         /// <summary>
         /// Called at the final stage of a successful Token endpoint request.
         /// An application may implement this call in order to do any final 
@@ -612,5 +629,10 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <param name="context">The context of the event carries information in and results out.</param>
         /// <returns>Task to enable asynchronous execution</returns>
         public virtual Task DeserializeRefreshToken(DeserializeRefreshTokenContext context) => OnDeserializeRefreshToken(context);
+
+        public virtual Task CreateClientRegistration(CreateClientRegistrationContext context) => OnCreateClientRegistration(context);
+        public virtual Task ReadClientRegistration(ReadClientRegistrationContext context) => OnReadClientRegistration(context);
+        public virtual Task UpdateClientRegistration(UpdateClientRegistrationContext context) => OnUpdateClientRegistration(context);
+        public virtual Task DeleteClientRegistration(DeleteClientRegistrationContext context) => OnDeleteClientRegistration(context);
     }
 }

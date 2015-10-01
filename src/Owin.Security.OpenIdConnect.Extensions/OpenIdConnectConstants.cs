@@ -57,6 +57,10 @@ namespace Owin.Security.OpenIdConnect.Extensions {
             public const string TokenType = "token_type";
             public const string TokenTypeHint = "token_type_hint";
             public const string Username = "username";
+            public const string RegistrationAccessToken = "registration_access_token";
+            public const string RegistrationClientUri = "registration_client_uri";
+            public const string ClientIdIssuedAt = "client_id_issued_at";
+            public const string ClientSecretExpiresAt = "client_secret_expires_at";
         }
 
         public static class ResponseTypes {
@@ -108,6 +112,10 @@ namespace Owin.Security.OpenIdConnect.Extensions {
             public const string UnauthorizedClient = "unauthorized_client";
             public const string UnsupportedGrantType = "unsupported_grant_type";
             public const string UnsupportedResponseType = "unsupported_response_type";
+            public const string InvalidRedirectUri = "invalid_redirect_uri";
+            public const string InvalidClientMetadata = "invalid_client_metadata";
+            public const string InvalidSoftwareStatement = "invalid_software_statement";
+            public const string UnapprovedSoftwareStatement = "unapproved_software_statement";
         }
 
         public static class Properties {
@@ -130,12 +138,57 @@ namespace Owin.Security.OpenIdConnect.Extensions {
             public const string IntrospectionEndpoint = "introspection_endpoint";
             public const string Issuer = "issuer";
             public const string JwksUri = "jwks_uri";
+            public const string RequireRequestUriRegistration = "require_request_uri_registration";
             public const string ResponseModesSupported = "response_modes_supported";
             public const string ResponseTypesSupported = "response_types_supported";
             public const string ScopesSupported = "scopes_supported";
             public const string SubjectTypesSupported = "subject_types_supported";
             public const string TokenEndpoint = "token_endpoint";
             public const string UserinfoEndpoint = "userinfo_endpoint";
+        }
+
+        public static class RegistrationMetadata
+        {
+            public const string RedirectUris = "redirect_uris";
+            public const string TokenEndpointAuthMethod = "token_endpoint_auth_method";
+            public const string GrantTypes = "grant_types";
+            public const string ResponseTypes = "response_types";
+            public const string ClientName = "client_name";
+            public const string ClientUri = "client_uri";
+            public const string DefaultMaxAge = "default_max_age";
+            public const string LogoUri = "logo_uri";
+            public const string Scope = "scope";
+            public const string Contacts = "contacts";
+            public const string TosUri = "tos_uri";
+            public const string PolicyUri = "policy_uri";
+            public const string JwksUri = Metadata.JwksUri;
+            public const string Jwks = "jwks";
+            public const string SoftwareId = "software_id";
+            public const string SoftwareVersion = "software_version";
+            public const string SoftwareStatement = "software_statement";
+            public const string ApplicationType = "application_type";
+            public const string SectorIdentifierUri = "sector_identifier_uri";
+            public const string SubjectType = "subject_type";
+            public const string IdTokenSignedResponseAlg = "id_token_signed_response_alg";
+            public const string IdTokenEncryptedResponseAlg = "id_token_encrypted_response_alg";
+            public const string IdTokenEncryptedResponseEnc = "id_token_encrypted_response_enc";
+            public const string UserinfoSignedResponseAlg = "userinfo_signed_response_alg";
+            public const string UserinfoEncryptedResponseAlg = "userinfo_encrypted_response_alg";
+            public const string UserinfoEncryptedResponseEnc = "userinfo_encrypted_response_enc";
+            public const string RequestObjectSigningAlg = "request_object_signing_alg";
+            public const string RequestObjectEncryptionAlg = "request_object_encryption_alg";
+            public const string RequestObjectEncryptionEnc = "request_object_encryption_enc";
+            public const string RequestUris = "request_uris";
+            public const string TokenEndpointAuthSigningAlg = "token_endpoint_auth_signing_alg";
+            public const string RequireAuthTime = "require_auth_time";
+            public const string DefaultAcrValues = "default_acr_values";
+            public const string InitiateLoginUri = "initiate_login_uri";
+        }
+
+        public static class TokenEndpointAuthMethods{
+            public const string None = "none";
+            public const string ClientSecretPost = "client_secret_post";
+            public const string ClientSecretBasic = "client_secret_basic";
         }
 
         public static class SubjectTypes {
@@ -157,6 +210,11 @@ namespace Owin.Security.OpenIdConnect.Extensions {
         public static class Environment {
             public const string Request = "OpenIdConnect.Request";
             public const string Response = "OpenIdConnect.Response";
+        }
+        public static class ApplicationTypes
+        {
+            public const string Web = "web";
+            public const string Native = "native";
         }
     }
 }
