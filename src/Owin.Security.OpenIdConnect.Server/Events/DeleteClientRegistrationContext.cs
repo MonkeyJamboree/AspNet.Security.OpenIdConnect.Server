@@ -1,11 +1,8 @@
 ﻿using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Notifications;
-using Newtonsoft.Json.Linq;
-using Owin.Security.OpenIdConnect.Extensions;
-using System.Collections.Generic;
 
-namespace Owin.Security.OpenIdConnect.Server.Events
+namespace Owin.Security.OpenIdConnect.Server
 {
     public sealed class DeleteClientRegistrationContext : BaseNotification<OpenIdConnectServerOptions>
     {
@@ -21,6 +18,6 @@ namespace Owin.Security.OpenIdConnect.Server.Events
         /// </summary>
         public AuthenticationTicket AuthenticationTicket { get; private set; }
 
-        pubilc string ClientId { get; set; }
+        public string ClientId { get; set; }
     }
 }

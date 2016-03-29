@@ -519,7 +519,7 @@ namespace Owin.Security.OpenIdConnect.Server {
         public virtual Task RegistrationEndpoint(RegistrationEndpointContext context) => OnRegistrationEndpoint(context);
 
         // TODO: Add summary.
-        public virtual Task RegistrationEndpoint(RegistrationEndpointResponseContext context) => OnRegistrationEndpointResponse(context);
+        public virtual Task RegistrationEndpointResponse(RegistrationEndpointResponseContext context) => OnRegistrationEndpointResponse(context);
 
         /// <summary>
         /// Called at the final stage of a successful Token endpoint request.

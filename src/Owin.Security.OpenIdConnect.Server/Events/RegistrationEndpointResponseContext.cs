@@ -23,7 +23,7 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <param name="ticket"></param>
         /// <param name="request"></param>
         /// <param name="payload"></param>
-        internal TokenEndpointResponseContext(
+        internal RegistrationEndpointResponseContext(
             IOwinContext context,
             OpenIdConnectServerOptions options,
             AuthenticationTicket ticket,

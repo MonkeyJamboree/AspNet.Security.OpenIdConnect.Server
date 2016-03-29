@@ -167,13 +167,13 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <summary>
         /// Sets the endpoint type to logout endpoint.
         /// </summary>
-        public void MatchesRegistrationEndpoint()
-        {
+        public void MatchesRegistrationEndpoint() {
             IsAuthorizationEndpoint = false;
             IsConfigurationEndpoint = false;
             IsCryptographyEndpoint = false;
             IsTokenEndpoint = false;
-            IsValidationEndpoint = false;
+            IsUserinfoEndpoint = false;
+            IsIntrospectionEndpoint = false;
             IsLogoutEndpoint = false;
             IsRegistrationEndpoint = true;
         }

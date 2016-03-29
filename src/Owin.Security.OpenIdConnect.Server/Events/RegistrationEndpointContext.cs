@@ -21,7 +21,7 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <param name="options"></param>
         /// <param name="request"></param>
         /// <param name="ticket"></param>
-        internal TokenEndpointContext(
+        internal RegistrationEndpointContext(
             IOwinContext context,
             OpenIdConnectServerOptions options,
             OpenIdConnectMessage request,

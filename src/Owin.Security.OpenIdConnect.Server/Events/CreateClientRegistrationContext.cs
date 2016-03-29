@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using Owin.Security.OpenIdConnect.Extensions;
 using System.Collections.Generic;
 
-namespace Owin.Security.OpenIdConnect.Server.Events
+namespace Owin.Security.OpenIdConnect.Server
 {
     public sealed class CreateClientRegistrationContext : BaseNotification<OpenIdConnectServerOptions>
     {
