@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Owin.Security.OpenIdConnect.Extensions;
+using System;
 using System.Threading.Tasks;
 
 namespace Owin.Security.OpenIdConnect.Server
@@ -10,29 +9,56 @@ namespace Owin.Security.OpenIdConnect.Server
             //TODO: Implement Registration request spec
             // See https://tools.ietf.org/html/rfc7591
 
-            //TODO: Require POST method for Registration requests
-            // See https://tools.ietf.org/html/rfc7591#section-3.1
-            //  also http://openid.net/specs/openid-connect-registration-1_0.html#RegistrationRequest
-            //TODO: Reject requests trying to register a client with an id in the parameter?
-            //TODO: Reject non-registration requests that do not have a client_id in the URL or Query parameters.
-            //TODO: Require GET method for Read requests
-            // See https://tools.ietf.org/html/rfc7592#section-2.1
-            //  also http://openid.net/specs/openid-connect-registration-1_0.html#ReadRequest
-            //TODO: Require PUT method for Update requests
-            // See https://tools.ietf.org/html/rfc7592#section-2.2
-            //TODO: Require DELETE method for Delete/Invalidate requests
-            // See https://tools.ietf.org/html/rfc7592#section-2.3
-            //TODO: Reject HTTP Methods that are not POST, GET, PUT, DELETE.
-            //TODO: Call Provider.{method} for each of the types of requests with appropriate params set on context.
-            //TODO: Create the four contexts and implement the methods on the default provider.
+            var validatingContext = new ValidateRegistrationRequestContext(Context, Options, Request);
 
+            if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Post))
+            {
+                // See https://tools.ietf.org/html/rfc7591#section-3.1
+                //  also http://openid.net/specs/openid-connect-registration-1_0.html#RegistrationRequest
+                //TODO: Reject requests trying to register a client with an id in the parameter?
+                validatingContext.MatchesCreateRequest();
+            }
+            else if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Get))
+            {
+                // See https://tools.ietf.org/html/rfc7592#section-2.1
+                //  also http://openid.net/specs/openid-connect-registration-1_0.html#ReadRequest
+                //TODO: Reject non-registration requests that do not have a client_id in the URL or Query parameters.
+                validatingContext.MatchesReadRequest();
+            }
+            else if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Put))
+            {
+                // See https://tools.ietf.org/html/rfc7592#section-2.2
+                //TODO: Reject non-registration requests that do not have a client_id in the URL or Query parameters.
+                validatingContext.MatchesUpdateRequest();
+            }
+            else if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Delete))
+            {
+                // See https://tools.ietf.org/html/rfc7592#section-2.3
+                //TODO: Reject non-registration requests that do not have a client_id in the URL or Query parameters.
+                validatingContext.MatchesDeleteRequest();
+            }
+            else
+            {
+                validatingContext.MatchesNothing();
+            }
+
+            //TODO: Call Provider.MatchRegistrationEndpoint() to do custom endpoint matching(?)
+            
             //TODO: Optionally accept initial access token
             // See https://tools.ietf.org/html/rfc7591#section-3.1
+            //TODO: Call Provider.ValidateRegistrationRequest() to do custom validation of request.
+
+            //TODO: Reject HTTP Methods that are not validated (by default, those that are not Create, Read, Update, or Delete requests).
+
+            //TODO: Call Provider.{method} for the type of request with appropriate params set on context.
+            //TODO: Create the four contexts and implement the methods on the default provider.
 
             //TODO: Allow for delegation of the endpoint to another framework (MVC/WebAPI) or middleware
 
-            //TODO: Accept JSON body in POST, PUT requests
+            //TODO: Accept JSON body in POST, PUT requests by default, allow for custom handling
             //TODO: Set values on the RegistrationEndpointContext for the values sent
+
+            //TODO: Call Provider.RegistrationEndpointResponse() to allow custom writing of the response body.
 
             // Note: if scope, software_id or software_version are provided, client is using OAuth2 DynReg.
             // Note: if application_type, sector_identifier_uri, subject_type,

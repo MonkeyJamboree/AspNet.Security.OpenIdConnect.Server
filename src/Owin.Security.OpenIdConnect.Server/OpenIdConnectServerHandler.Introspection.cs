@@ -25,13 +25,13 @@ namespace Owin.Security.OpenIdConnect.Server {
 
             // See https://tools.ietf.org/html/rfc7662#section-2.1
             // and https://tools.ietf.org/html/rfc7662#section-4
-            if (string.Equals(Request.Method, "GET", StringComparison.OrdinalIgnoreCase)) {
+            if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Get)) {
                 request = new OpenIdConnectMessage(Request.Query) {
                     RequestType = OpenIdConnectRequestType.AuthenticationRequest
                 };
             }
 
-            else if (string.Equals(Request.Method, "POST", StringComparison.OrdinalIgnoreCase)) {
+            else if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Post)) {
                 // See http://openid.net/specs/openid-connect-core-1_0.html#FormSerialization
                 if (string.IsNullOrEmpty(Request.ContentType)) {
                     await SendErrorPayloadAsync(new OpenIdConnectMessage {
@@ -44,7 +44,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 }
 
                 // May have media/type; charset=utf-8, allow partial match.
-                if (!Request.ContentType.StartsWith("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase)) {
+                if (!Request.HasContentType(OpenIdConnectConstants.ContentTypes.ApplicationXWwwFormUrlEncoded)) {
                     await SendErrorPayloadAsync(new OpenIdConnectMessage {
                         Error = OpenIdConnectConstants.Errors.InvalidRequest,
                         ErrorDescription = "A malformed introspection request has been received: " +
@@ -385,7 +385,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 writer.Flush();
                 
                 Response.ContentLength = buffer.Length;
-                Response.ContentType = "application/json;charset=UTF-8";
+                Response.ContentType = OpenIdConnectConstants.ContentTypes.ApplicationJson + ";charset=UTF-8";
 
                 Response.Headers.Set("Cache-Control", "no-cache");
                 Response.Headers.Set("Pragma", "no-cache");

@@ -11,6 +11,7 @@ using System.Security.Claims;
 using JetBrains.Annotations;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin.Security;
+using Microsoft.Owin;
 
 namespace Owin.Security.OpenIdConnect.Extensions {
     /// <summary>
@@ -1155,6 +1156,38 @@ namespace Owin.Security.OpenIdConnect.Extensions {
             ticket.Properties.Dictionary[OpenIdConnectConstants.Properties.Usage] = usage;
 
             return ticket;
+        }
+
+        /// <summary>
+        /// Checks whether the HTTP Method of the <paramref name="request"/> matches <paramref name="httpMethod"/>.
+        /// </summary>
+        /// <param name="request">The <see cref="IOwinRequest"/>.</param>
+        /// <param name="httpMethod">The HTTP Method to check.</param>
+        /// <returns></returns>
+        public static bool HasMethod(this IOwinRequest request, string httpMethod)
+        {
+            if (string.IsNullOrWhiteSpace(httpMethod))
+            {
+                throw new ArgumentNullException(nameof(httpMethod));
+            }
+
+            return string.Equals(request.Method, httpMethod, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Checks whether the Content-Type of the <paramref name="request"/> matches <paramref name="contentType"/>.
+        /// </summary>
+        /// <param name="request">The <see cref="IOwinRequest"/>.</param>
+        /// <param name="contentType">The Content-Type to check.</param>
+        /// <returns></returns>
+        public static bool HasContentType(this IOwinRequest request, string contentType)
+        {
+            if (string.IsNullOrWhiteSpace(contentType))
+            {
+                throw new ArgumentNullException(nameof(contentType));
+            }
+
+            return request.ContentType.StartsWith(contentType, StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool HasValue(string source, string value) {

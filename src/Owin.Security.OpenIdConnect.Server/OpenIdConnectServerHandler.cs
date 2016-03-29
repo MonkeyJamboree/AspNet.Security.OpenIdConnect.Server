@@ -55,16 +55,16 @@ namespace Owin.Security.OpenIdConnect.Server {
             // request is directly extracted from the query string or the request form.
             var request = Context.GetOpenIdConnectRequest();
             if (request == null) {
-                if (string.Equals(Request.Method, "GET", StringComparison.OrdinalIgnoreCase)) {
+                if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Get)) {
                     request = new OpenIdConnectMessage(Request.Query);
                 }
 
-                else if (string.Equals(Request.Method, "POST", StringComparison.OrdinalIgnoreCase)) {
+                else if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Post)) {
                     if (string.IsNullOrEmpty(Request.ContentType)) {
                         return null;
                     }
 
-                    else if (!Request.ContentType.StartsWith("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase)) {
+                    else if (!Request.HasContentType(OpenIdConnectConstants.ContentTypes.ApplicationXWwwFormUrlEncoded)) {
                         return null;
                     }
 
@@ -488,7 +488,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 writer.Flush();
 
                 Response.ContentLength = buffer.Length;
-                Response.ContentType = "application/json;charset=UTF-8";
+                Response.ContentType = OpenIdConnectConstants.ContentTypes.ApplicationJson + ";charset=UTF-8";
 
                 buffer.Seek(offset: 0, loc: SeekOrigin.Begin);
                 await buffer.CopyToAsync(Response.Body, 4096, Request.CallCancelled);
@@ -515,7 +515,7 @@ namespace Owin.Security.OpenIdConnect.Server {
 
                 Response.StatusCode = 400;
                 Response.ContentLength = buffer.Length;
-                Response.ContentType = "application/json;charset=UTF-8";
+                Response.ContentType = OpenIdConnectConstants.ContentTypes.ApplicationJson + ";charset=UTF-8";
 
                 Response.Headers.Set("Cache-Control", "no-cache");
                 Response.Headers.Set("Pragma", "no-cache");

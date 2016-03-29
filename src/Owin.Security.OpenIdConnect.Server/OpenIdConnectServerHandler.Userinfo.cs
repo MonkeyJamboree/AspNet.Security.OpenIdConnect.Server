@@ -21,8 +21,8 @@ namespace Owin.Security.OpenIdConnect.Server {
         private async Task<bool> InvokeUserinfoEndpointAsync() {
             OpenIdConnectMessage request;
 
-            if (!string.Equals(Request.Method, "GET", StringComparison.OrdinalIgnoreCase) &&
-                !string.Equals(Request.Method, "POST", StringComparison.OrdinalIgnoreCase)) {
+            if (!Request.HasMethod(OpenIdConnectConstants.HttpMethods.Get) &&
+                !Request.HasMethod(OpenIdConnectConstants.HttpMethods.Post)) {
                 await SendErrorPayloadAsync(new OpenIdConnectMessage {
                     Error = OpenIdConnectConstants.Errors.InvalidRequest,
                     ErrorDescription = "A malformed userinfo request has been received: " +
@@ -32,7 +32,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 return true;
             }
 
-            if (string.Equals(Request.Method, "GET", StringComparison.OrdinalIgnoreCase)) {
+            if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Get)) {
                 request = new OpenIdConnectMessage(Request.Query);
             }
 
@@ -49,7 +49,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 }
 
                 // May have media/type; charset=utf-8, allow partial match.
-                if (!Request.ContentType.StartsWith("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase)) {
+                if (!Request.HasContentType(OpenIdConnectConstants.ContentTypes.ApplicationXWwwFormUrlEncoded)) {
                     await SendErrorPayloadAsync(new OpenIdConnectMessage {
                         Error = OpenIdConnectConstants.Errors.InvalidRequest,
                         ErrorDescription = "A malformed userinfo request has been received: " +
@@ -292,7 +292,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 writer.Flush();
 
                 Response.ContentLength = buffer.Length;
-                Response.ContentType = "application/json;charset=UTF-8";
+                Response.ContentType = OpenIdConnectConstants.ContentTypes.ApplicationJson + ";charset=UTF-8";
 
                 Response.Headers.Set("Cache-Control", "no-cache");
                 Response.Headers.Set("Pragma", "no-cache");

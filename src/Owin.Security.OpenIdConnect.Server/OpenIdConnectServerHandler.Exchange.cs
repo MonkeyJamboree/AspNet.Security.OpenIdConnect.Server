@@ -22,7 +22,7 @@ using Owin.Security.OpenIdConnect.Extensions;
 namespace Owin.Security.OpenIdConnect.Server {
     internal partial class OpenIdConnectServerHandler : AuthenticationHandler<OpenIdConnectServerOptions> {
         private async Task InvokeTokenEndpointAsync() {
-            if (!string.Equals(Request.Method, "POST", StringComparison.OrdinalIgnoreCase)) {
+            if (!Request.HasMethod(OpenIdConnectConstants.HttpMethods.Post)) {
                 await SendErrorPayloadAsync(new OpenIdConnectMessage {
                     Error = OpenIdConnectConstants.Errors.InvalidRequest,
                     ErrorDescription = "A malformed token request has been received: make sure to use POST."
@@ -43,7 +43,7 @@ namespace Owin.Security.OpenIdConnect.Server {
             }
 
             // May have media/type; charset=utf-8, allow partial match.
-            if (!Request.ContentType.StartsWith("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase)) {
+            if (!Request.HasContentType(OpenIdConnectConstants.ContentTypes.ApplicationXWwwFormUrlEncoded)) {
                 await SendErrorPayloadAsync(new OpenIdConnectMessage {
                     Error = OpenIdConnectConstants.Errors.InvalidRequest,
                     ErrorDescription = "A malformed token request has been received: " +
@@ -612,7 +612,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 writer.Flush();
 
                 Response.ContentLength = buffer.Length;
-                Response.ContentType = "application/json;charset=UTF-8";
+                Response.ContentType = OpenIdConnectConstants.ContentTypes.ApplicationJson + ";charset=UTF-8";
 
                 Response.Headers.Set("Cache-Control", "no-cache");
                 Response.Headers.Set("Pragma", "no-cache");

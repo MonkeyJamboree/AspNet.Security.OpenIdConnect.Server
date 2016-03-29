@@ -26,7 +26,7 @@ namespace Owin.Security.OpenIdConnect.Server {
         private async Task InvokeConfigurationEndpointAsync() {
             // Metadata requests must be made via GET.
             // See http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
-            if (!string.Equals(Request.Method, "GET", StringComparison.OrdinalIgnoreCase)) {
+            if (!Request.HasMethod(OpenIdConnectConstants.HttpMethods.Get)) {
                 Options.Logger.WriteError("Configuration endpoint: invalid method used.");
 
                 return;
@@ -203,7 +203,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 writer.Flush();
 
                 Response.ContentLength = buffer.Length;
-                Response.ContentType = "application/json;charset=UTF-8";
+                Response.ContentType = OpenIdConnectConstants.ContentTypes.ApplicationJson + ";charset=UTF-8";
 
                 buffer.Seek(offset: 0, loc: SeekOrigin.Begin);
                 await buffer.CopyToAsync(Response.Body, 4096, Request.CallCancelled);
@@ -213,7 +213,7 @@ namespace Owin.Security.OpenIdConnect.Server {
         private async Task InvokeCryptographyEndpointAsync() {
             // Metadata requests must be made via GET.
             // See http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
-            if (!string.Equals(Request.Method, "GET", StringComparison.OrdinalIgnoreCase)) {
+            if (!Request.HasMethod(OpenIdConnectConstants.HttpMethods.Get)) {
                 Options.Logger.WriteError("Cryptography endpoint: invalid method used.");
 
                 return;
@@ -239,7 +239,7 @@ namespace Owin.Security.OpenIdConnect.Server {
 
             // Metadata requests must be made via GET.
             // See http://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
-            if (!string.Equals(Request.Method, "GET", StringComparison.OrdinalIgnoreCase)) {
+            if (!Request.HasMethod(OpenIdConnectConstants.HttpMethods.Get)) {
                 Options.Logger.WriteError("Cryptography endpoint: invalid method used.");
 
                 return;
@@ -517,7 +517,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 writer.Flush();
 
                 Response.ContentLength = buffer.Length;
-                Response.ContentType = "application/json;charset=UTF-8";
+                Response.ContentType = OpenIdConnectConstants.ContentTypes.ApplicationJson + ";charset=UTF-8";
 
                 buffer.Seek(offset: 0, loc: SeekOrigin.Begin);
                 await buffer.CopyToAsync(Response.Body, 4096, Request.CallCancelled);

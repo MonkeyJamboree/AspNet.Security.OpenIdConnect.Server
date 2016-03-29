@@ -20,13 +20,13 @@ namespace Owin.Security.OpenIdConnect.Server {
             // Note: logout requests must be made via GET but POST requests
             // are also accepted to allow flowing large logout payloads.
             // See https://openid.net/specs/openid-connect-session-1_0.html#RPLogout
-            if (string.Equals(Request.Method, "GET", StringComparison.OrdinalIgnoreCase)) {
+            if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Get)) {
                 request = new OpenIdConnectMessage(Request.Query) {
                     RequestType = OpenIdConnectRequestType.LogoutRequest
                 };
             }
 
-            else if (string.Equals(Request.Method, "POST", StringComparison.OrdinalIgnoreCase)) {
+            else if (Request.HasMethod(OpenIdConnectConstants.HttpMethods.Post)) {
                 // See http://openid.net/specs/openid-connect-core-1_0.html#FormSerialization
                 if (string.IsNullOrEmpty(Request.ContentType)) {
                     return await SendErrorPageAsync(new OpenIdConnectMessage {
@@ -37,7 +37,7 @@ namespace Owin.Security.OpenIdConnect.Server {
                 }
 
                 // May have media/type; charset=utf-8, allow partial match.
-                if (!Request.ContentType.StartsWith("application/x-www-form-urlencoded", StringComparison.OrdinalIgnoreCase)) {
+                if (!Request.HasContentType(OpenIdConnectConstants.ContentTypes.ApplicationXWwwFormUrlEncoded)) {
                     return await SendErrorPageAsync(new OpenIdConnectMessage {
                         Error = OpenIdConnectConstants.Errors.InvalidRequest,
                         ErrorDescription = "A malformed logout request has been received: " +

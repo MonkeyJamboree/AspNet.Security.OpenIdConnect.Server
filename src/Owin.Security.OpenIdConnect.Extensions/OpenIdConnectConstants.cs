@@ -26,9 +26,22 @@ namespace Owin.Security.OpenIdConnect.Extensions {
             public const string Website = "website";
         }
 
+        public static class ContentTypes
+        {
+            public const string ApplicationJson = "application/json";
+            public const string ApplicationXWwwFormUrlEncoded = "application/x-www-form-urlencoded";
+        }
+
         public static class Destinations {
             public const string AccessToken = "access_token";
             public const string IdentityToken = "id_token";
+        }
+
+        public static class HttpMethods {
+            public const string Get = "GET";
+            public const string Delete = "DELETE";
+            public const string Post = "POST";
+            public const string Put = "PUT";
         }
 
         public static class Parameters {
