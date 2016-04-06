@@ -51,6 +51,11 @@ namespace Owin.Security.OpenIdConnect.Server {
         public Func<ValidateLogoutRequestContext, Task> OnValidateLogoutRequest { get; set; } = context => Task.FromResult<object>(null);
 
         /// <summary>
+        /// Called for each request to the registration endpoint to determine if the request is valid and should continue.
+        /// </summary>
+        public Func<ValidateRegistrationRequestContext, Task> OnValidateRegistrationRequest { get; set; } = context => Task.FromResult<object>(null);
+
+        /// <summary>
         /// Called for each request to the token endpoint to determine if the request is valid and should continue.
         /// </summary>
         public Func<ValidateTokenRequestContext, Task> OnValidateTokenRequest { get; set; } = context => Task.FromResult<object>(null);
@@ -149,10 +154,19 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// Called at the final stage of an incoming logout endpoint request before the execution continues on to the web application component 
         /// responsible for producing the html response. Anything present in the OWIN pipeline following the Authorization Server may produce the
         /// response for the logout page. If running on IIS any ASP.NET technology running on the server may produce the response for the 
-        /// authorization page. If the web application wishes to produce the response directly in the LogoutEndpoint call it may write to the 
+        /// logout page. If the web application wishes to produce the response directly in the LogoutEndpoint call it may write to the 
         /// context.Response directly and should call context.RequestCompleted to stop other handlers from executing.
         /// </summary>
         public Func<HandleLogoutRequestContext, Task> OnHandleLogoutRequest { get; set; } = context => Task.FromResult<object>(null);
+
+        /// <summary>
+        /// Called at the final stage of an incoming authorization endpoint request before the execution continues on to the web application component 
+        /// responsible for producing the response. Anything present in the OWIN pipeline following the Authorization Server may produce the
+        /// response for the registration request. If running on IIS any ASP.NET technology running on the server may produce the response for the 
+        /// registration request. If the web application wishes to produce the response directly in the HandleRegistrationResponse call it may write to the 
+        /// context.Response directly and should call context.RequestCompleted to stop other handlers from executing.
+        /// </summary>
+        public Func<HandleRegistrationRequestContext, Task> OnHandleRegistrationRequest { get; set; } = context => Task.FromResult<object>(null);
 
         /// <summary>
         /// Called at the final stage of a successful Token endpoint request.
@@ -201,12 +215,6 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// </summary>
         public Func<ApplyIntrospectionResponseContext, Task> OnApplyIntrospectionResponse { get; set; } = context => Task.FromResult<object>(null);
 
-        // TODO: Add summary.
-        public Func<RegistrationEndpointContext, Task> OnRegistrationEndpoint { get; set; } = context => Task.FromResult<object>(null);
-
-        // TODO: Add summary.
-        public Func<RegistrationEndpointResponseContext, Task> OnRegistrationEndpointResponse { get; set; } = context => Task.FromResult<object>(null);
-
         /// <summary>
         /// Called before the LogoutEndpoint endpoint redirects its response to the caller.
         /// If the web application wishes to produce the authorization response directly in the LogoutEndpoint call it may write to the 
@@ -214,6 +222,14 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// This call may also be used to add additional response parameters to the authorization response.
         /// </summary>
         public Func<ApplyLogoutResponseContext, Task> OnApplyLogoutResponse { get; set; } = context => Task.FromResult<object>(null);
+
+        /// <summary>
+        /// Called before the Registration endpoint redirects its response to the caller.
+        /// If the web application wishes to produce the authorization response directly in the RegistrationEndpoint call it may write to the 
+        /// context.Response directly and should call context.RequestCompleted to stop other handlers from executing.
+        /// This call may also be used to add additional response parameters to the authorization response.
+        /// </summary>
+        public Func<ApplyRegistrationResponseContext, Task> OnApplyRegistrationResponse { get; set; } = context => Task.FromResult<object>(null);
 
         /// <summary>
         /// Called before the TokenEndpoint redirects its response to the caller.
@@ -515,11 +531,27 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <returns>Task to enable asynchronous execution</returns>
         public virtual Task ApplyCryptographyResponse(ApplyCryptographyResponseContext context) => OnApplyCryptographyResponse(context);
 
-        // TODO: Add summary.
-        public virtual Task RegistrationEndpoint(RegistrationEndpointContext context) => OnRegistrationEndpoint(context);
+        /// <summary>
+        /// Called at the final stage of an incoming registration endpoint request before the execution continues on to the web application component 
+        /// responsible for producing the response. Anything present in the OWIN pipeline following the Authorization Server may produce the
+        /// response for the registration request. If running on IIS any ASP.NET technology running on the server may produce the response for the 
+        /// registration request. If the web application wishes to produce the response directly in the HandleRegistrationRequest call it may write to the 
+        /// context.Response directly and should call context.RequestCompleted to stop other handlers from executing.
+        /// </summary>
+        /// <param name="context">The context of the event carries information in and results out.</param>
+        /// <returns>Task to enable asynchronous execution</returns>
+        public virtual Task HandleRegistrationRequest(HandleRegistrationRequestContext context) => OnHandleRegistrationRequest(context);
 
-        // TODO: Add summary.
-        public virtual Task RegistrationEndpointResponse(RegistrationEndpointResponseContext context) => OnRegistrationEndpointResponse(context);
+        /// <summary>
+        /// Called before the registration endpoint redirects its response to the caller.
+        /// The response could contain the result of a registration, read, update, or delet request.
+        /// If the web application wishes to produce the registration response directly in the ApplyRegistrationResponse call it may write to the 
+        /// context.Response directly and should call context.RequestCompleted to stop other handlers from executing.
+        /// This call may also be used to add additional response parameters to the registration response.
+        /// </summary>
+        /// <param name="context">The context of the event carries information in and results out.</param>
+        /// <returns>Task to enable asynchronous execution</returns>
+        public virtual Task ApplyRegistrationResponse(ApplyRegistrationResponseContext context) => OnApplyRegistrationResponse(context);
 
         /// <summary>
         /// Called at the final stage of a successful Token endpoint request.

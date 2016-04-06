@@ -13,7 +13,7 @@ namespace Owin.Security.OpenIdConnect.Server {
     /// <summary>
     /// Provides context information used when processing an OpenIdConnect token request.
     /// </summary>
-    public sealed class RegistrationEndpointContext : BaseNotification<OpenIdConnectServerOptions> {
+    public sealed class HandleRegistrationRequestContext : BaseNotification<OpenIdConnectServerOptions> {
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenEndpointContext"/> class
         /// </summary>
@@ -21,7 +21,7 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <param name="options"></param>
         /// <param name="request"></param>
         /// <param name="ticket"></param>
-        internal RegistrationEndpointContext(
+        internal HandleRegistrationRequestContext(
             IOwinContext context,
             OpenIdConnectServerOptions options,
             OpenIdConnectMessage request,

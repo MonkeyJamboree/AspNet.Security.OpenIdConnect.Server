@@ -151,6 +151,9 @@ namespace Owin.Security.OpenIdConnect.Extensions {
             public const string IntrospectionEndpoint = "introspection_endpoint";
             public const string Issuer = "issuer";
             public const string JwksUri = "jwks_uri";
+            public const string OpPolicyUri = "op_policy_uri";
+            public const string OpTosUri = "op_tos_uri";
+            public const string RegistrationEndpoint = "registration_endpoint";
             public const string RequireRequestUriRegistration = "require_request_uri_registration";
             public const string ResponseModesSupported = "response_modes_supported";
             public const string ResponseTypesSupported = "response_types_supported";

@@ -246,11 +246,27 @@ namespace Owin.Security.OpenIdConnect.Server {
         /// <returns>Task to enable asynchronous execution</returns>
         Task ApplyIntrospectionResponse(ApplyIntrospectionResponseContext context);
 
-        // TODO: Add Summary.
-        Task RegistrationEndpoint(RegistrationEndpointContext context);
+        /// <summary>
+        /// Called at the final stage of an incoming registration endpoint request before the execution continues on to the web application component 
+        /// responsible for producing the response. Anything present in the OWIN pipeline following the Authorization Server may produce the
+        /// response for the registration request. If running on IIS any ASP.NET technology running on the server may produce the response for the 
+        /// registration request. If the web application wishes to produce the response directly in the HandleRegistrationRequest call it may write to the 
+        /// context.Response directly and should call context.RequestCompleted to stop other handlers from executing.
+        /// </summary>
+        /// <param name="context">The context of the event carries information in and results out.</param>
+        /// <returns>Task to enable asynchronous execution</returns>
+        Task HandleRegistrationRequest(HandleRegistrationRequestContext context);
 
-        // TODO: Add Summary.
-        Task RegistrationEndpointResponse(RegistrationEndpointResponseContext context);
+        /// <summary>
+        /// Called before the registration endpoint redirects its response to the caller.
+        /// The response could contain the result of a registration, read, update, or delet request.
+        /// If the web application wishes to produce the registration response directly in the ApplyRegistrationResponse call it may write to the 
+        /// context.Response directly and should call context.RequestCompleted to stop other handlers from executing.
+        /// This call may also be used to add additional response parameters to the registration response.
+        /// </summary>
+        /// <param name="context">The context of the event carries information in and results out.</param>
+        /// <returns>Task to enable asynchronous execution</returns>
+        Task ApplyRegistrationResponse(ApplyRegistrationResponseContext context);
 
         /// <summary>
         /// Called before the LogoutEndpoint endpoint redirects its response to the caller.

@@ -42,31 +42,62 @@ namespace Owin.Security.OpenIdConnect.Server
                 validatingContext.MatchesNothing();
             }
 
-            //TODO: Call Provider.MatchRegistrationEndpoint() to do custom endpoint matching(?)
-            
             //TODO: Optionally accept initial access token
             // See https://tools.ietf.org/html/rfc7591#section-3.1
             //TODO: Call Provider.ValidateRegistrationRequest() to do custom validation of request.
 
-            //TODO: Reject HTTP Methods that are not validated (by default, those that are not Create, Read, Update, or Delete requests).
+            if (validatingContext.IsRejected)
+            {
+                //TODO: return an error.
+            }
+
+            if (!validatingContext.IsSkipped)
+            {
+                //TODO: Reject HTTP Methods that are not validated (by default, those that are not Create, Read, Update, or Delete requests).
+                //TODO: Finish validating the registration request.
+            }
+
+            if (validatingContext.IsCreateRequest)
+            {
+                await HandleRegistrationCreateRequestAsync();
+            }
+
+            else if (validatingContext.IsReadRequest)
+            {
+                await HandleRegistrationReadRequestAsync();
+            }
+
+            else if (validatingContext.IsUpdateRequest)
+            {
+                await HandleRegistrationUpdateRequestAsync();
+            }
+
+            else if (validatingContext.IsDeleteRequest)
+            {
+                await HandleRegistrationDeleteRequestAsync();
+            }
+            else
+            {
+                //TODO: an error occurred somewhere and the request was validated but isn't one of the types
+                // of registration requests.
+            }
 
             //TODO: Call Provider.{method} for the type of request with appropriate params set on context.
             //TODO: Create the four contexts and implement the methods on the default provider.
 
-            //TODO: Allow for delegation of the endpoint to another framework (MVC/WebAPI) or middleware
-
             //TODO: Accept JSON body in POST, PUT requests by default, allow for custom handling
             //TODO: Set values on the RegistrationEndpointContext for the values sent
 
-            //TODO: Call Provider.RegistrationEndpointResponse() to allow custom writing of the response body.
-
-            // Note: if scope, software_id or software_version are provided, client is using OAuth2 DynReg.
+            // Note: if scope, software_id or software_version are provided, client is using (at least) OAuth2 DynReg.
             // Note: if application_type, sector_identifier_uri, subject_type,
             //  id_token_signed_response_alg, id_token_encrypted_response_alg, id_token_encrypted_response_enc,
             //  userinfo_signed_response_alg, userinfo_encrypted_response_alg, userinfo_encrypted_response_enc,
             //  request_object_signing_alg, request_object_encryption_alg, request_object_encryption_enc,
             //  token_endpoint_auth_signing_alg, default_max_age, require_auth_time, default_acr_values,
             //  initiate_login_uri, request_uris are provided, client is using OIDC DynReg.
+            // Note: otherwise, fall back to OAuth2 DynReg.
+
+            //TODO: IN CONFIGURATION ENDPOINT - Add registration_uri and possibly op_tos_uri and op_policy_uri
 
             //TODO: IN AUTHORIZE ENDPOINT - MUST check that one of these values matches the redirect_uri parameter
             // See http://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata
@@ -275,8 +306,30 @@ namespace Owin.Security.OpenIdConnect.Server
 
             //TODO: Write all metadata used to register client
             //  Including: metadata passed to endpoint, default values used on AS
-            throw new NotImplementedException();
 
+            //TODO: pass through to the application by default to handle the actual CRUD operations.
+
+            //TODO: Call Provider.RegistrationEndpointResponse() to allow custom writing of the response body.
+        }
+
+        private async Task HandleRegistrationCreateRequestAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task HandleRegistrationReadRequestAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task HandleRegistrationUpdateRequestAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task HandleRegistrationDeleteRequestAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
